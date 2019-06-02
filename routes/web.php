@@ -11,7 +11,7 @@
 |
 */
 
-$router->group(['prefix' => 'v1'], function () use ($router) {
+$router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($router) {
     $router->get('/users', 'UserController@index');
     $router->post('/users', 'UserController@store');
     $router->get('/users/{user}', 'UserController@show');
