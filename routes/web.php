@@ -11,9 +11,20 @@
 |
 */
 
+/**
+ * Auhentication routes
+ */
+$router->group(['prefix' => 'v1'], function () use ($router) {
+    $router->post('/login', 'Auth\AuthController@login');
+    $router->post('/register', 'Auth\AuthController@register');
+});
+
+/**
+ * Users and Roles routes
+ */
 $router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($router) {
-    $router->get('/users', 'UserController@index');
     $router->post('/users', 'UserController@store');
+    $router->get('/users', 'UserController@index');
     $router->get('/users/{user}', 'UserController@show');
     $router->put('/users/{user}', 'UserController@update');
     $router->patch('/users/{user}', 'UserController@update');
@@ -27,7 +38,9 @@ $router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($rou
     $router->delete('/roles/{role}', 'RoleController@destroy');
 });
 
-
+/**
+ * ExampleService routes
+ */
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->get('/examples', 'Services\ExampleServiceController@index');
     $router->post('/examples', 'Services\ExampleServiceController@store');
