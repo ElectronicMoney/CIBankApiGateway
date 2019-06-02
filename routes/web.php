@@ -11,6 +11,10 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->group(['prefix' => 'v1'], function () use ($router) {
+    $router->get('/users', 'UserController@index');
+    $router->get('/users/{user}', 'UserController@show');
+    $router->put('/users/{user}', 'UserController@update');
+    $router->patch('/users/{user}', 'UserController@update');
+    $router->delete('/users/{user}', 'UserController@destroy');
 });
