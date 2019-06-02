@@ -109,9 +109,9 @@ class UserController extends Controller
         if ($request->has('password')) {
             $user->password  = $request->input('password');
         }
-        //Check if anything changed in user
-        if ($user->isClean()) {
-            return 'You must specify a new value to update';
+       //Check if anything changed in user
+       if ($user->isClean()) {
+            return $this->errorResponse('You must specify a new value to update', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         //Save the user
         $user->save();
