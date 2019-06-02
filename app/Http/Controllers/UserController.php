@@ -111,7 +111,7 @@ class UserController extends Controller
         }
        //Check if anything changed in user
        if ($user->isClean()) {
-            return $this->errorResponse('You must specify a new value to update', Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->apiTransformer->errorResponse('You must specify a new value to update', ApiJsonTransformer::HTTP_UNPROCESSABLE_ENTITY);
         }
         //Save the user
         $user->save();
