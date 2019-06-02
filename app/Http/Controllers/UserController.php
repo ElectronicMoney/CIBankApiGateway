@@ -6,17 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Hashing\BcryptHasher;
+use App\Transformer\ApiJsonTransformer;
 
 class UserController extends Controller
 {
 
+    private $apiTransformer;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct(ApiJsonTransformer $apiTransformer) {
         //
+        $this->apiTransformer = $apiTransformer;
     }
 
     /**
@@ -26,7 +29,7 @@ class UserController extends Controller
      */
     public function index() {
         $users = User::all();
-        return $users;
+        return $this->apiTransformer->successResponse($users, ApiJsonTransformer::HTTP_OK);
     }
 
     /**
@@ -39,10 +42,10 @@ class UserController extends Controller
          //The rules
          $rules = [
             'name'     => 'required|max:255',
-            'username' => 'required|unique|max:255',
-            'email'    => 'required|unique|max:255',
+            'username' => 'required|unique:users|max:255',
+            'email'    => 'required|unique:users|max:255',
             'password' => 'required|max:255',
-            'password_confirmation' => 'confirm|max:255',
+            'password_confirmation' => 'confirmed|max:255',
         ];
         //validate the request
        $this->validate($request, $rules);
@@ -55,7 +58,7 @@ class UserController extends Controller
         //Save the user
         $user->save();
         //Return the new user
-        return $user;
+        return $this->apiTransformer->successResponse($user, ApiJsonTransformer::HTTP_OK);
     }
 
     /**
@@ -67,7 +70,7 @@ class UserController extends Controller
     public function show($userId) {
         //get user with the given userId
         $user = User::findOrFail($userId);
-        return $user;
+        return $this->apiTransformer->successResponse($user, ApiJsonTransformer::HTTP_OK);
     }
 
     /**
@@ -81,8 +84,8 @@ class UserController extends Controller
         //The rules
         $rules = [
             'name'     => 'max:255',
-            'username' => 'unique|max:255',
-            'email'    => 'unique|max:255',
+            'username' => 'unique:users|max:255',
+            'email'    => 'unique:users|max:255',
             'password' => 'max:255',
             'password_confirmation' => 'confirm|max:255',
         ];
@@ -113,7 +116,7 @@ class UserController extends Controller
         //Save the user
         $user->save();
         //Return the new user
-        return $user;
+        return $this->apiTransformer->successResponse($user, ApiJsonTransformer::HTTP_OK);
     }
 
     /**
@@ -127,7 +130,7 @@ class UserController extends Controller
         $user = User::findOrFail($userId);
         $user->delete();
         //Return the new user
-        return $user;
+        return $this->apiTransformer->successResponse($user, ApiJsonTransformer::HTTP_OK);
 
     }
 
