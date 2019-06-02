@@ -18,4 +18,11 @@ $router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($rou
     $router->put('/users/{user}', 'UserController@update');
     $router->patch('/users/{user}', 'UserController@update');
     $router->delete('/users/{user}', 'UserController@destroy');
+
+    $router->post('/roles', 'RoleController@store');
+    $router->get('/roles', 'RoleController@index');
+    $router->get('/roles/{role}', 'RoleController@show');
+    $router->put('/roles/{role}', 'RoleController@update');
+    $router->patch('/roles/{role}', 'RoleController@update');
+    $router->delete('/roles/{role}', 'RoleController@destroy');
 });

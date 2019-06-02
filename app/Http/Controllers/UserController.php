@@ -18,7 +18,6 @@ class UserController extends Controller
      * @return void
      */
     public function __construct(ApiJsonTransformer $apiTransformer) {
-        //
         $this->apiTransformer = $apiTransformer;
     }
 

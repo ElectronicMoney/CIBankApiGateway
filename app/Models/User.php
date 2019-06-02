@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Laravel\Passport\HasApiTokens;
+use App\Models\Role;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
@@ -30,4 +31,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    /**
+     * User belongsTo Role
+     *@param null
+     * @return object $role
+     */
+    public function role() {
+        return $this->belongsTo(Role::class);
+    }
 }
