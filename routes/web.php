@@ -26,3 +26,13 @@ $router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($rou
     $router->patch('/roles/{role}', 'RoleController@update');
     $router->delete('/roles/{role}', 'RoleController@destroy');
 });
+
+
+$router->group(['prefix' => 'v1'], function () use ($router) {
+    $router->get('/examples', 'Services\ExampleServiceController@index');
+    $router->post('/examples', 'Services\ExampleServiceController@store');
+    $router->get('/examples/{example}', 'Services\ExampleServiceController@show');
+    $router->put('/examples/{example}', 'Services\ExampleServiceController@update');
+    $router->patch('/examples/{example}', 'Services\ExampleServiceController@update');
+    $router->delete('/examples/{example}', 'Services\ExampleServiceController@destroy');
+});
