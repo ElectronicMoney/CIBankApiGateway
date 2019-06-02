@@ -45,11 +45,10 @@ class AuthController extends Controller
     public function register(Request $request) {
         //The rules
         $rules = [
-           'name'     => 'required|max:255',
-           'username' => 'required|unique:users|max:255',
-           'email'    => 'required|unique:users|max:255',
-           'password' => 'required|max:255',
-           'password_confirmation' => 'confirmed|max:255',
+           'name'     => ['required', 'max:255'],
+           'username' => ['required', 'unique:users', 'max:255'],
+           'email'    => ['required', 'unique:users', 'max:255'],
+           'password' => ['required', 'string', 'min:8', 'confirmed'],
        ];
        //validate the request
       $this->validate($request, $rules);
@@ -58,7 +57,7 @@ class AuthController extends Controller
        $user->name     = $request->input('name');
        $user->username = $request->input('username');
        $user->email    = $request->input('email');
-       $user->password = (new BcryptHasher($request->input('password')));
+       $user->password = (new BcryptHasher)->make($request->input('password'));
        //Save the user
        $user->save();
        //Return the new user
