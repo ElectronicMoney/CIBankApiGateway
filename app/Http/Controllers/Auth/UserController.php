@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Hashing\BcryptHasher;
 use App\Transformer\ApiJsonTransformer;
+use App\Traits\Authorization;
 
 class UserController extends Controller
 {
+    use Authorization;
 
     private $apiTransformer;
+
     /**
      * Create a new controller instance.
      *
@@ -21,43 +24,6 @@ class UserController extends Controller
         $this->apiTransformer = $apiTransformer;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index() {
-        $users = User::all();
-        return $this->apiTransformer->successResponse($users, ApiJsonTransformer::HTTP_OK);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request) {
-         //The rules
-         $rules = [
-            'name'     => ['required', 'max:255'],
-            'username' => ['required', 'unique:users', 'max:255'],
-            'email'    => ['required', 'unique:users', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ];
-        //validate the request
-       $this->validate($request, $rules);
-        //instantiate the User
-        $user = new User();
-        $user->name     = $request->input('name');
-        $user->username = $request->input('username');
-        $user->email    = $request->input('email');
-        $user->password = (new BcryptHasher)->make($request->input('password'));
-        //Save the user
-        $user->save();
-        //Return the new user
-        return $this->apiTransformer->successResponse($user, ApiJsonTransformer::HTTP_OK);
-    }
 
     /**
      * Display the specified resource.
@@ -66,8 +32,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($userId) {
+        /**
+         *Check if the Authenticated user is resorce owner
+         *Or is an Administrator
+         * */
+        if ( $this->authUserIsNotResourceOwner($userId) ) {
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+        }
         //get user with the given userId
         $user = User::findOrFail($userId);
+        //Return the new user
         return $this->apiTransformer->successResponse($user, ApiJsonTransformer::HTTP_OK);
     }
 
@@ -79,6 +53,14 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $userId) {
+        /**
+         *Check if the Authenticated user is resorce owner
+         *Or is an Administrator
+         * */
+        if ( $this->authUserIsNotResourceOwner($userId) ) {
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+        }
+
         //The rules
         $rules = [
             'name'     => ['max:255'],
@@ -90,6 +72,7 @@ class UserController extends Controller
        $this->validate($request, $rules);
         //get user with the given userId
         $user = User::findOrFail($userId);
+
         //Check if the request has name
         if ($request->has('name')) {
             $user->name    = $request->input('name');
@@ -123,12 +106,19 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($userId) {
+        /**
+         *Check if the Authenticated user is resorce owner
+         *Or is an Administrator
+         * */
+        if ( $this->authUserIsNotResourceOwner($userId) ) {
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+        }
         //get user with the given userId
         $user = User::findOrFail($userId);
+        //delete user
         $user->delete();
         //Return the new user
         return $this->apiTransformer->successResponse($user, ApiJsonTransformer::HTTP_OK);
-
     }
 
 }

@@ -23,29 +23,42 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
  * Users and Roles routes
  */
 $router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($router) {
-    $router->post('/users', 'UserController@store');
-    $router->get('/users', 'UserController@index');
-    $router->get('/users/{user}', 'UserController@show');
-    $router->put('/users/{user}', 'UserController@update');
-    $router->patch('/users/{user}', 'UserController@update');
-    $router->delete('/users/{user}', 'UserController@destroy');
+    $router->get('/users/{user}', 'Auth\UserController@show');
+    $router->put('/users/{user}', 'Auth\UserController@update');
+    $router->patch('/users/{user}', 'Auth\UserController@update');
+    $router->delete('/users/{user}', 'Auth\UserController@destroy');
 
-    $router->post('/roles', 'RoleController@store');
-    $router->get('/roles', 'RoleController@index');
-    $router->get('/roles/{role}', 'RoleController@show');
-    $router->put('/roles/{role}', 'RoleController@update');
-    $router->patch('/roles/{role}', 'RoleController@update');
-    $router->delete('/roles/{role}', 'RoleController@destroy');
-});
-
-/**
- * ExampleService routes
- */
-$router->group(['prefix' => 'v1'], function () use ($router) {
-    $router->get('/examples', 'Services\ExampleServiceController@index');
     $router->post('/examples', 'Services\ExampleServiceController@store');
     $router->get('/examples/{example}', 'Services\ExampleServiceController@show');
     $router->put('/examples/{example}', 'Services\ExampleServiceController@update');
     $router->patch('/examples/{example}', 'Services\ExampleServiceController@update');
     $router->delete('/examples/{example}', 'Services\ExampleServiceController@destroy');
 });
+
+
+/**
+ * Users and Roles routes
+ */
+$router->group(['prefix' => 'v1/management', 'middleware' => 'auth'], function () use ($router) {
+    $router->post('/users', 'Management\Auth\ManageUserController@store');
+    $router->get('/users', 'Management\Auth\ManageUserController@index');
+    $router->get('/users/{user}', 'Management\Auth\ManageUserController@show');
+    $router->put('/users/{user}', 'Management\Auth\ManageUserController@update');
+    $router->patch('/users/{user}', 'Management\Auth\ManageUserController@update');
+    $router->delete('/users/{user}', 'Management\Auth\ManageUserController@destroy');
+
+    $router->post('/roles', 'Management\Auth\ManageRoleController@store');
+    $router->get('/roles', 'Management\Auth\ManageRoleController@index');
+    $router->get('/roles/{role}', 'Management\Auth\ManageRoleController@show');
+    $router->put('/roles/{role}', 'Management\Auth\ManageRoleController@update');
+    $router->patch('/roles/{role}', 'Management\Auth\ManageRoleController@update');
+    $router->delete('/roles/{role}', 'Management\Auth\ManageRoleController@destroy');
+
+    $router->get('/examples', 'Management\Services\ManageExampleServiceController@index');
+    $router->post('/examples', 'Management\Services\ManageExampleServiceController@store');
+    $router->get('/examples/{example}', 'Management\Services\ManageExampleServiceController@show');
+    $router->put('/examples/{example}', 'Management\Services\ManageExampleServiceController@update');
+    $router->patch('/examples/{example}', 'Management\Services\ManageExampleServiceController@update');
+    $router->delete('/examples/{example}', 'Management\Services\ExampleServiceController@destroy');
+});
+

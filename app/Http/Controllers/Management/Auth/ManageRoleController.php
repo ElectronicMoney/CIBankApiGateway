@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Management\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Transformer\ApiJsonTransformer;
+use App\Traits\Authorization;
 
-class RoleController extends Controller
+class ManageRoleController extends Controller
 {
+    use Authorization;
+
     private $apiTransformer;
+
     /**
      * Create a new controller instance.
      *
@@ -25,9 +29,14 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        //Check if the Authenticated user is admin
+        if ( $this->isNotAdministrator() ) {
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+        }
         $roles = Role::all();
         return $this->apiTransformer->successResponse($roles);
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -35,6 +44,11 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+         //Check if the Authenticated user is admin
+         if ( $this->isNotAdministrator() ) {
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+        }
+
         //The rules
         $rules = [
             'name'     => 'required|max:255',
@@ -49,6 +63,7 @@ class RoleController extends Controller
         //Return the new role
         return $this->apiTransformer->successResponse($role, ApiJsonTransformer::HTTP_CREATED);
     }
+
     /**
      * Display the specified resource.
      *
@@ -56,10 +71,15 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($roleId) {
+        //Check if the Authenticated user is admin
+        if ( $this->isNotAdministrator() ) {
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+        }
         //get role with the given roleId
         $role = Role::findOrFail($roleId);
         return $this->apiTransformer->successResponse($role);
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -68,6 +88,10 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $roleId) {
+        //Check if the Authenticated user is admin
+        if ( $this->isNotAdministrator() ) {
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+        }
         //The rules
         $rules = [
             'name'     => 'max:255',
@@ -89,6 +113,7 @@ class RoleController extends Controller
         //Return the new role
         return $this->apiTransformer->successResponse($role, ApiJsonTransformer::HTTP_CREATED);
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -96,6 +121,10 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($roleId) {
+        //Check if the Authenticated user is admin
+        if ( $this->isNotAdministrator() ) {
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+        }
         //get role with the given roleId
         $role = Role::findOrFail($roleId);
         $role->delete();
