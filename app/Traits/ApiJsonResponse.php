@@ -18,6 +18,21 @@ trait ApiJsonResponse
     }
 
     /**
+     * Return Success JsonResponse
+     *
+     * @param  string|array $data
+     * @param int $code
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function successHeaderWithToken($data, $apiToken, $code = Response::HTTP_OK) {
+        return response($data, $code)->withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $apiToken
+        ]);
+    }
+
+    /**
      * Return Error JsonResponse
      *
      * @param  string  $message
