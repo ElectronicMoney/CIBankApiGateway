@@ -28,7 +28,7 @@ class  ExampleService
      * @return string
      */
     public function getExamples() {
-        return $this->httpRequest('GET', 'examples');
+        return $this->httpRequest('GET', 'examples')->getBody();
     }
 
     /**
@@ -37,7 +37,7 @@ class  ExampleService
      * @return string
      */
     public function createExample($data) {
-        return $this->httpRequest('POST', 'examples', $data);
+        return $this->httpRequest('POST', 'examples', $data)->getBody();
     }
 
     /**
@@ -46,7 +46,7 @@ class  ExampleService
      * @return string
      */
     public function getExample($exampleId) {
-        return $this->httpRequest('GET', "examples/{$exampleId}");
+        return $this->httpRequest('GET', "examples/{$exampleId}")->getBody();
     }
 
     /**
@@ -56,7 +56,7 @@ class  ExampleService
      * @return string
      */
     public function editExample($data, $exampleId) {
-        return $this->httpRequest('PUT', "examples/{$exampleId}", $data);
+        return $this->httpRequest('PUT', "examples/{$exampleId}", $data)->getBody();
     }
 
     /**
@@ -65,6 +65,6 @@ class  ExampleService
      * @return string
      */
     public function deleteExample($exampleId) {
-        return $this->httpRequest('DELETE', "examples/{$exampleId}");
+        return $this->httpRequest('DELETE', "examples/{$exampleId}")->getBody();
     }
 }

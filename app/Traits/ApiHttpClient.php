@@ -21,6 +21,6 @@ trait ApiHttpClient
         //Send the request
         $response = $client->request($method, $requestUrl, ['form_params' => $formParams, 'headers' => $headers]);
         //Return a response
-        return $response->getBody();
+        return $response;
     }
 }
