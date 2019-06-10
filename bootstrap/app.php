@@ -29,6 +29,11 @@ $app->configure('auth');
 $app->configure('oauth2');
 $app->configure('services');
 
+$app->configure('mail');
+$app->alias('mailer', Illuminate\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -89,6 +94,8 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 // Finally register two service providers - original one and Lumen adapter
 $app->register(Laravel\Passport\PassportServiceProvider::class);

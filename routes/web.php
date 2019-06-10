@@ -11,7 +11,6 @@
 |
 */
 
-
 /**
  * Auhentication routes
  */
