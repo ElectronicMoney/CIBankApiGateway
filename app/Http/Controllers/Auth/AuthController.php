@@ -31,7 +31,7 @@ class AuthController extends Controller
      */
     public function login() {
         if ( Auth::check()) {
-            return Auth::user();
+            return $this->apiTransformer->successResponse(Auth::user());
         }
         return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
     }
