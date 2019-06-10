@@ -59,8 +59,6 @@ class AuthApiProxyMiddleware
 
         $response = $next($request);
         // Post-Middleware Action
-
-
         return $response;
     }
 }
