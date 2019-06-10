@@ -26,6 +26,7 @@ $app->withFacades();
 $app->withEloquent();
 
 $app->configure('auth');
+$app->configure('oauth2');
 $app->configure('services');
 
 /*
@@ -63,6 +64,10 @@ $app->singleton(
 // $app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
+
+$app->middleware([
+    App\Http\Middleware\AuthApiProxyMiddleware::class
+]);
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
