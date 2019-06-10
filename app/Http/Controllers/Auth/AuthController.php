@@ -8,8 +8,7 @@ use App\Models\User;
 use Illuminate\Hashing\BcryptHasher;
 use App\Transformer\ApiJsonTransformer;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\UserRegistered;
+use App\Events\UserRegisteredEvent;
 
 class AuthController extends Controller
 {
@@ -82,10 +81,8 @@ class AuthController extends Controller
        $user->password = (new BcryptHasher)->make($request->input('password'));
        //Save the user
        $user->save();
-
-       //Send Mail to the New User
-       Mail::to($user)->send(new UserRegistered($user));
-
+       //Fire UserRegisteredEvent
+       event(new UserRegisteredEvent($user));
        //Return the new user
        return $this->apiTransformer->successResponse($user, ApiJsonTransformer::HTTP_OK);
    }

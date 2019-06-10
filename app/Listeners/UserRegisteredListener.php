@@ -2,11 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\ExampleEvent;
+use App\Events\UserRegisteredEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRegistered;
 
-class ExampleListener
+class UserRegisteredListener
 {
     /**
      * Create the event listener.
@@ -24,8 +26,10 @@ class ExampleListener
      * @param  ExampleEvent  $event
      * @return void
      */
-    public function handle(ExampleEvent $event)
+    public function handle(UserRegisteredEvent $event)
     {
-        //
+        // Access the user using $event->user...
+        //Send Mail to the New User
+       Mail::to($event->user)->send(new UserRegistered($event->user));
     }
 }
