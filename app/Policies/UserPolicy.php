@@ -4,10 +4,17 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class UserPolicy
 {
     use HandlesAuthorization;
+
+    public function before(User $user) {
+        if ($user->isAdministrator()) {
+            return true;
+        }
+    }
 
     /**
      * Determine whether the user can view the user.
@@ -17,7 +24,7 @@ class UserPolicy
      */
     public function view(User $user)
     {
-        //
+        return Auth::id() === $user->id;
     }
 
     /**
@@ -28,7 +35,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return Auth::id() === $user->id;
     }
 
     /**
@@ -39,7 +46,7 @@ class UserPolicy
      */
     public function update(User $user)
     {
-        //
+        return Auth::id() === $user->id;
     }
 
     /**
@@ -50,6 +57,6 @@ class UserPolicy
      */
     public function delete(User $user)
     {
-        //
+        return Auth::id() === $user->id;
     }
 }

@@ -40,4 +40,51 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function role() {
         return $this->belongsTo(Role::class);
     }
+
+    /**
+     * Role hasMany User
+     *@param null
+     * @return object $user
+     */
+    public function isAdministrator() {
+        return $this->role->id === 1;
+    }
+
+    /**
+     * Role hasMany User
+     *@param null
+     * @return object $user
+     */
+    public function isAuthor() {
+        return $this->role->id === 2;
+    }
+
+    /**
+     * Role hasMany User
+     *@param null
+     * @return object $user
+     */
+    public function isEditor() {
+        return $this->role->id === 3;
+    }
+
+    /**
+     * Role hasMany User
+     *@param null
+     * @return object $user
+     */
+    public function isModerator() {
+        return $this->role->id === 4;
+    }
+
+    /**
+     * Role hasMany User
+     *@param null
+     * @return object $user
+     */
+    public function isSubscriber() {
+        return $this->role->id === 5;
+    }
+
+
 }
