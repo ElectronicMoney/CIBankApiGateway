@@ -25,12 +25,12 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
  */
 $router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($router) {
     //UserController routes
-    $router->post('/users', 'Auth\UserController@store');
-    $router->get('/users', 'Auth\UserController@index');
-    $router->get('/users/{user}', 'Auth\UserController@show');
-    $router->put('/users/{user}', 'Auth\UserController@update');
-    $router->patch('/users/{user}', 'Auth\UserController@update');
-    $router->delete('/users/{user}', 'Auth\UserController@destroy');
+    $router->post('/users', 'User\UserController@store');
+    $router->get('/users', 'User\UserController@index');
+    $router->get('/users/{user}', 'User\UserController@show');
+    $router->put('/users/{user}', 'User\UserController@update');
+    $router->patch('/users/{user}', 'User\UserController@update');
+    $router->delete('/users/{user}', 'User\UserController@destroy');
 
     //RoleController routes
     $router->post('/roles', 'Auth\RoleController@store');
