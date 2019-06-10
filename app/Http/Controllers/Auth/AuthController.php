@@ -23,17 +23,37 @@ class AuthController extends Controller
     }
 
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login() {
+        if ( Auth::check()) {
+            return Auth::user();
+        }
+        return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request) {
-        if ( !Auth::user()) {
-            return $this->apiTransformer->errorResponse('Unauthorized.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+    public function logout() {
+        if ( Auth::check()) {
+            $accessToken = Auth::user()->token();
+            DB::table('oauth_refresh_tokens')
+                ->where('access_token_id', $accessToken->id)
+                ->update([
+                    'revoked' => true
+                ]);
+
+            $accessToken->revoke();
+            return $this->apiTransformer->successResponse(null, ApiJsonTransformer::HTTP_NO_CONTENT);
         }
-        return Auth::user();
     }
 
     /**

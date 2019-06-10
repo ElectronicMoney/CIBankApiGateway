@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Management\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use App\Models\Role;
 use App\Transformer\ApiJsonTransformer;
 use App\Traits\Authorization;
 
-class ManageRoleController extends Controller
+class RoleController extends Controller
 {
     use Authorization;
 
@@ -51,7 +51,7 @@ class ManageRoleController extends Controller
 
         //The rules
         $rules = [
-            'name'     => 'required|max:255',
+            'name' => 'required|max:255',
         ];
         //validate the request
        $this->validate($request, $rules);

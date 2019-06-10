@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -22,6 +22,20 @@ class UserController extends Controller
      */
     public function __construct(ApiJsonTransformer $apiTransformer) {
         $this->apiTransformer = $apiTransformer;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index() {
+        //Check if the Authenticated user is admin
+        if ( $this->isNotAdministrator() ) {
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
+        }
+        $users = User::all();
+        return $this->apiTransformer->successResponse($users, ApiJsonTransformer::HTTP_OK);
     }
 
 

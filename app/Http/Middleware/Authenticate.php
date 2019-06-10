@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use App\Transformer\ApiJsonTransformer;
 
 class Authenticate
 {
@@ -15,6 +16,13 @@ class Authenticate
     protected $auth;
 
     /**
+     * The apiTransformer
+     *
+     * @var
+     */
+    private $apiTransformer;
+
+    /**
      * Create a new middleware instance.
      *
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
@@ -23,6 +31,7 @@ class Authenticate
     public function __construct(Auth $auth)
     {
         $this->auth = $auth;
+        $this->apiTransformer = new ApiJsonTransformer();
     }
 
     /**
@@ -36,7 +45,7 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+            return $this->apiTransformer->errorResponse('Unauthorized Access.', ApiJsonTransformer::HTTP_UNAUTHORIZED);
         }
 
         return $next($request);
