@@ -24,6 +24,7 @@ class AuthApiProxyMiddleware
      * @return void
      */
     public function __construct() {
+        // $this->grantType    = config('oauth2.grant_types.client_credentials');
         $this->grantType    = config('oauth2.grant_types.password');
         $this->clientId     = config('oauth2.credentials.client_id');
         $this->clientSecret = config('oauth2.credentials.client_secret');
