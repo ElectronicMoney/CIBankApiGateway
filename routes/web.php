@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,6 +12,11 @@
 |
 */
 
+$router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($router) {
+    $router->get('/client', function () {
+        return "Yes";
+    });
+});
 /**
  * Auhentication routes
  */

@@ -5,7 +5,7 @@
  * @return string $base_uri
  */
 return [
-    '1000' =>  [
+    'example' =>  [
         'id'        => env('EXAMPLE_SERVICE_ID'),
         'name'      => env('EXAMPLE_SERVICE_NAME'),
         'base_uri'  => env('EXAMPLE_SERVICE_BASE_URL'),
