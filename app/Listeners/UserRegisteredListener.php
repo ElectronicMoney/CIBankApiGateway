@@ -6,7 +6,7 @@ use App\Events\UserRegisteredEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\UserRegistered;
+use App\Mail\UserRegisteredMail;
 
 class UserRegisteredListener
 {
@@ -30,6 +30,6 @@ class UserRegisteredListener
     {
         // Access the user using $event->user...
         //Send Mail to the New User
-       Mail::to($event->user)->send(new UserRegistered($event->user));
+       Mail::to($event->user)->send(new UserRegisteredMail($event->user));
     }
 }

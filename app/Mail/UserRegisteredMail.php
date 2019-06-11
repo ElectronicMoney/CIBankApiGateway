@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\User;
 
-class UserRegistered extends Mailable
+class UserRegisteredMail extends Mailable
 {
     use Queueable, SerializesModels;
 
