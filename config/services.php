@@ -5,7 +5,10 @@
  * @return string $base_uri
  */
 return [
-    'examples' => [
-        'base_uri' => env('EXAMPLES_SERVICE_BASE_URL'),
-    ],
+    '1000' =>  [
+        'id'        => env('EXAMPLE_SERVICE_ID'),
+        'name'      => env('EXAMPLE_SERVICE_NAME'),
+        'base_uri'  => env('EXAMPLE_SERVICE_BASE_URL'),
+        'api_token' => env('EXAMPLE_SERVICE_API_TOKEN'),
+    ]
 ];

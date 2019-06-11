@@ -12,9 +12,9 @@ return [
     'credentials' => [
         'client_id'         => env('CLIENT_ID'),
         'client_secret'     => env('CLIENT_SECRET'),
-        'machine_api_token' => env('MACHINE_API_TOKEN'),
         'redirect_uri'      => env('REDIRECT_URI'),
         'response_type'     => env('RESPONSE_TYPE'),
         'scope'             => env('SCOPE'),
     ],
+
 ];
