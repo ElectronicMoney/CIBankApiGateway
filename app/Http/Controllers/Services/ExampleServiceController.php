@@ -33,6 +33,7 @@ class ExampleServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        return "Yes";
         return $this->successHeader($this->exampleService->getExamples(), Response::HTTP_OK);
     }
 

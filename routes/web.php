@@ -12,10 +12,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-$router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($router) {
-    $router->get('/client', function () {
-        return "Yes";
-    });
+$router->group(['prefix' => 'v1', 'middleware' => 'client.credentials'], function () use ($router) {
+      //ExampleServiceController routes
+      $router->post('/examples', 'Services\ExampleServiceController@store');
+      $router->get('/examples', 'Services\ExampleServiceController@index');
+      $router->get('/examples/{example}', 'Services\ExampleServiceController@show');
+      $router->put('/examples/{example}', 'Services\ExampleServiceController@update');
+      $router->patch('/examples/{example}', 'Services\ExampleServiceController@update');
+      $router->delete('/examples/{example}', 'Services\ExampleServiceController@destroy');
 });
 /**
  * Auhentication routes
@@ -44,13 +48,5 @@ $router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($rou
     $router->put('/roles/{role}', 'Auth\RoleController@update');
     $router->patch('/roles/{role}', 'Auth\RoleController@update');
     $router->delete('/roles/{role}', 'Auth\RoleController@destroy');
-
-    //ExampleServiceController routes
-    $router->post('/examples', 'Services\ExampleServiceController@store');
-    $router->get('/examples', 'Services\ExampleServiceController@index');
-    $router->get('/examples/{example}', 'Services\ExampleServiceController@show');
-    $router->put('/examples/{example}', 'Services\ExampleServiceController@update');
-    $router->patch('/examples/{example}', 'Services\ExampleServiceController@update');
-    $router->delete('/examples/{example}', 'Services\ExampleServiceController@destroy');
 });
 
