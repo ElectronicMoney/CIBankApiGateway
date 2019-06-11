@@ -47,12 +47,20 @@ class AuthApiProxyMiddleware
          *and request uri is oauth/token
          * */
         if ($request->path() === 'oauth/token') {
-            $this->OAuth2Credentials = [
-                'grant_type'    => $this->grantType,
-                'client_id'     => $this->clientId,
-                'client_secret' => $this->clientSecret,
-                'scope'         => $this->scope,
-            ];
+            //Check if grant type is password
+            if ($request->input('grant_type') === 'password') {
+                $this->OAuth2Credentials = [
+                    'client_id'     => $this->clientId,
+                    'client_secret' => $this->clientSecret,
+                    'scope'         => $this->scope,
+                ];
+            } else {
+                //If it it not password grant type; then client_secret is required
+                $this->OAuth2Credentials = [
+                    'client_id'     => $this->clientId,
+                    'scope'         => $this->scope,
+                ];
+            }
 
             $request->request->add($this->OAuth2Credentials);
         }
