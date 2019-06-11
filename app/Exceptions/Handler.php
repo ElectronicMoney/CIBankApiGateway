@@ -4,12 +4,14 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Response;
 use App\Traits\ApiJsonResponse;
+
 
 class Handler extends ExceptionHandler
 {
@@ -63,9 +65,15 @@ class Handler extends ExceptionHandler
         }
 
         //Check if the exception is an instance of AuthorizationException
-        if( $exception instanceof AuthorizationException) {
+        if( $exception instanceof AuthenticationException) {
             $message = $exception->getMessage();
             return $this->errorResponse($message, Response::HTTP_FORBIDDEN);
+        }
+
+        //Check if the exception is an instance of AuthorizationException
+        if( $exception instanceof AuthorizationException) {
+            $message = $exception->getMessage();
+            return $this->errorResponse($message, Response::HTTP_UNAUTHORIZED);
         }
 
         //Check if the exception is an instance of ValidationException
