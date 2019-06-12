@@ -15,9 +15,9 @@ use Illuminate\Hashing\BcryptHasher;
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
-        'role_id' => $faker->randomElement([1, 2, 3, 4, 5]),
+        'role_id' => $faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         'username' => $faker->userName,
         'email' => $faker->email,
-        'password' => (new BcryptHasher)->make('secret'),
+        'password' => (new BcryptHasher)->make('secret123'),
     ];
 });

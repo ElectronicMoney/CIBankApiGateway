@@ -17,15 +17,35 @@ class RolesTableSeeder extends Seeder
         ]);
 
         Role::create([
-            'name' => 'Author',
+            'name' => 'Chairman',
         ]);
 
         Role::create([
-            'name' => 'Editor',
+            'name' => 'Director',
         ]);
 
         Role::create([
-            'name' => 'Moderator',
+            'name' => 'Manager',
+        ]);
+
+        Role::create([
+            'name' => 'Paymaster',
+        ]);
+
+        Role::create([
+            'name' => 'Accountant',
+        ]);
+
+        Role::create([
+            'name' => 'Cashier',
+        ]);
+
+        Role::create([
+            'name' => 'Customer Service',
+        ]);
+
+        Role::create([
+            'name' => 'Customer',
         ]);
 
         Role::create([
