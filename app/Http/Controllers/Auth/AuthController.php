@@ -9,6 +9,7 @@ use Illuminate\Hashing\BcryptHasher;
 use App\Transformer\ApiJsonTransformer;
 use Illuminate\Support\Facades\Auth;
 use App\Events\UserRegisteredEvent;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -51,7 +52,6 @@ class AuthController extends Controller
                 ->update([
                     'revoked' => true
                 ]);
-
             $accessToken->revoke();
             return $this->apiTransformer->successResponse(null, ApiJsonTransformer::HTTP_NO_CONTENT);
         }
