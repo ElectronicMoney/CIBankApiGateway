@@ -50,3 +50,26 @@ $router->group(['prefix' => 'v1/', 'middleware' => 'auth'], function () use ($ro
 
 });
 
+/**
+ * Customer Service routes
+ */
+$router->group(['prefix' => 'v1/', 'middleware' => 'auth'], function () use ($router) {
+    //CustomerController routes
+    $router->post('customers', 'Services\CustomerService\CustomerController@store');
+    $router->get('customers', 'Services\CustomerService\CustomerController@index');
+    $router->get('customers/{customer}', 'Services\CustomerService\CustomerController@show');
+    $router->put('customers/{customer}', 'Services\CustomerService\CustomerController@update');
+    $router->patch('customers/{customer}', 'Services\CustomerService\CustomerController@update');
+    $router->delete('customers/{customer}', 'Services\CustomerService\CustomerController@destroy');
+
+    //CustomerController routes
+    $router->post('addresses', 'Services\CustomerService\AddressController@store');
+    $router->get('addresses', 'Services\CustomerService\AddressController@index');
+    $router->get('addresses/{address}', 'Services\CustomerService\AddressController@show');
+    $router->put('addresses/{address}', 'Services\CustomerService\AddressController@update');
+    $router->patch('addresses/{address}', 'Services\CustomerService\AddressController@update');
+    $router->delete('addresses/{address}', 'Services\CustomerService\AddressController@destroy');
+});
+
+
+

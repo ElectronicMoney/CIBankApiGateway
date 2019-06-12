@@ -1,30 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Services;
+namespace App\Http\Controllers\Services\CustomerService;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\ExampleService;
+use App\Services\CustomerService\Customer;
 use App\Traits\ApiJsonResponse;
 use Illuminate\Http\Response;
 
-class ExampleServiceController extends Controller
+class CustomerController extends Controller
 {
     use ApiJsonResponse;
 
     /**
-     * The service to consume the examples micro service
+     * The service to consume the customers micro service
      * @var string
      */
-    public $exampleService;
+    public $customerService;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ExampleService $exampleService) {
-        $this->exampleService = $exampleService;
+    public function __construct(Customer $customer) {
+        $this->customerService = $customer;
     }
 
     /**
@@ -33,7 +33,7 @@ class ExampleServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return $this->successHeader($this->exampleService->getExamples(), Response::HTTP_OK);
+        return $this->successHeader($this->customerService->getCustomers(), Response::HTTP_OK);
     }
 
     /**
@@ -43,7 +43,7 @@ class ExampleServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        return $this->successHeader($this->exampleService->createExample($request->all()), Response::HTTP_CREATED);
+        return $this->successHeader($this->customerService->createCustomer($request->all()), Response::HTTP_CREATED);
     }
 
     /**
@@ -52,8 +52,8 @@ class ExampleServiceController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($example) {
-        return $this->successHeader($this->exampleService->getExample($example), Response::HTTP_OK);
+    public function show($customer) {
+        return $this->successHeader($this->customerService->getCustomer($customer), Response::HTTP_OK);
     }
 
     /**
@@ -63,8 +63,9 @@ class ExampleServiceController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $example) {
-        return $this->successHeader($this->exampleService->editExample($request->all(), $example), Response::HTTP_OK);
+    public function update(Request $request, $customer) {
+        return $request->all();
+        return $this->successHeader($this->customerService->editCustomer($request->all(), $customer), Response::HTTP_OK);
     }
 
     /**
@@ -73,7 +74,7 @@ class ExampleServiceController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy($example) {
-        return $this->successHeader($this->exampleService->deleteExample($example), Response::HTTP_OK);
+    public function destroy($customer) {
+        return $this->successHeader($this->customerService->deleteCustomer($customer), Response::HTTP_OK);
     }
 }
