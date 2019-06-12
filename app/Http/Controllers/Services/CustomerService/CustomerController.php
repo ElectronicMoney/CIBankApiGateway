@@ -64,7 +64,6 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $customer) {
-        return $request->all();
         return $this->successHeader($this->customerService->editCustomer($request->all(), $customer), Response::HTTP_OK);
     }
 

@@ -18,7 +18,7 @@ class AuthApiProxyMiddleware
     private $scope;
     private $passwordGrant;
     private $clientCredentialsGrant;
-    private $apiGatewayToken;
+    private $apiGatewayAccessToken;
 
     /**
      * Create a new middleware instance.
@@ -32,7 +32,7 @@ class AuthApiProxyMiddleware
         $this->scope        = config('oauth2.credentials.scope');
         $this->passwordGrant = config('oauth2.grant_types.password');
         $this->clientCredentialsGrant = config('oauth2.grant_types.client_credentials');
-        $this->apiGatewayToken = config('services.api_gateway.api_gateway_token');
+        $this->apiGatewayAccessToken = config('services.api_gateway_access_token');
     }
 
 
@@ -53,7 +53,7 @@ class AuthApiProxyMiddleware
         if ($request->path() === 'oauth/token') {
             // 1. Check if the request has apigatewayAccessToken
             // 2. If it has it; set grantType to client_credentails
-            if ($request->has('api_gateway_token') && $request->input('api_gateway_token') === $this->apiGatewayToken) {
+            if ($request->has('api_gateway_access_token') && $request->input('api_gateway_access_token') === $this->apiGatewayAccessToken) {
                 $this->grantType = $this->clientCredentialsGrant;
             } else {
                 $this->grantType = $this->passwordGrant;

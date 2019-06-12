@@ -66,6 +66,7 @@ class  Customer
      * @return string
      */
     public function editCustomer($data, $customerId) {
+        return $data;
         return $this->httpRequest('PUT', "customers/{$customerId}", $data, $this->requestHeader)->getBody();
     }
 

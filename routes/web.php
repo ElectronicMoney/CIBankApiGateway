@@ -40,14 +40,6 @@ $router->group(['prefix' => 'v1/', 'middleware' => 'auth'], function () use ($ro
     $router->patch('roles/{role}', 'Authorization\RoleController@update');
     $router->delete('roles/{role}', 'Authorization\RoleController@destroy');
 
-    //ExampleController routes
-    $router->post('examples', 'Services\ExampleServiceController@store');
-    $router->get('examples', 'Services\ExampleServiceController@index');
-    $router->get('examples/{example}', 'Services\ExampleServiceController@show');
-    $router->put('examples/{example}', 'Services\ExampleServiceController@update');
-    $router->patch('examples/{example}', 'Services\ExampleServiceController@update');
-    $router->delete('examples/{example}', 'Services\ExampleServiceController@destroy');
-
 });
 
 /**
